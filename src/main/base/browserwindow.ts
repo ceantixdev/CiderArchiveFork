@@ -1300,7 +1300,7 @@ export class BrowserWindow {
       //let newaudio = [leftpcm, rightpcm];
       // console.log(newaudio.length);
 
-      let pcmData = Buffer.from(new Int8Array(interleave16(bitratechange(Int16Array.from(newaudio[0], (x) => convert(x))), bitratechange(Int16Array.from(newaudio[1], (x) => convert(x)))).buffer));
+      let pcmData = Buffer.from(interleave16(bitratechange(Int16Array.from(newaudio[0], (x) => convert(x))), bitratechange(Int16Array.from(newaudio[1], (x) => convert(x)))).buffer);
 
       if (!this.headerSent) {
         console.log("new header");
