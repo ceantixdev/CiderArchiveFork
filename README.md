@@ -1,18 +1,19 @@
-<div align="center">
-<picture>
-    <img src="resources/icons/icon.png" width="128px">
-</picture>
-</div>
-<h1 align="center">
-Cider 1
-</h1>
+Cider seems to have a bug when compiling on Linux (The only option for accessing Cider V1 as the original release is archived). This patch should fix the problem for compiling from source. If you don't trust my repo I don't blame you, make the same changes below in the archive to patch it yourself.
 
-> [!WARNING]  
->This project has been archived, and no further updates or support will be provided under any circumstances. We highly recommend switching to [Cider v2](https://cider.sh/downloads/client) for the latest features, improvements, and continued support.  
+src/main/base/browserwindow.ts:1303
 
-This repository contains the source code for **Cider v1.x**, a cross-platform Apple Music client built from the ground up by the development team.  
+let pcmData = Buffer.from(interleave16(bitratechange(Int16Array.from(newaudio[0], (x) => convert(x))), bitratechange(Int16Array.from(newaudio[1], (x) => convert(x)))).buffer);
 
-Cider v1 was developed using [Electron.js](https://electronjs.org), [Vue.js 2](https://vuejs.org), and [Webpack](https://webpack.js.org).  
+src/main/plugins/raop.ts:329
 
-**Note:** While distributions may still be available through various third-party sources, first-party builds are no longer provided due to the high volume of support requests for v1.  
+this.airtunes.circularBuffer.write(Buffer.from(Int8Array.from(result.outbuffer)));
 
+To compile from source check out their [docs](https://cider.gitbook.io/welcome-to-gitbook/docs/3.legacy-docs/2.compilation]https://cider.gitbook.io/welcome-to-gitbook/docs/3.legacy-docs/2.compilatio).
+
+For anyone with NodeJS already installed it should just be these two commands for x86-64-bit systems.
+```
+npm install --force
+```
+```
+npm run dist -l --x64
+```
