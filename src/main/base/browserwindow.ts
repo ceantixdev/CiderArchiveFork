@@ -884,7 +884,7 @@ export class BrowserWindow {
         if (url.endsWith("/")) url = url.slice(0, -1);
         let response = await utils.fetch(`${url}/archive/refs/heads/main.zip`);
         let repo = url.split("/").slice(-2).join("/");
-        let apiRepo = await utils.fetch(`https://api.github.com/repos/${repo}`).then((res) => res.json()) as { id: number};
+        let apiRepo = (await utils.fetch(`https://api.github.com/repos/${repo}`).then((res) => res.json())) as { id: number };
         console.debug(`REPO ID: ${apiRepo.id}`);
         // extract the files from the first folder in the zip response
         let zip = new AdmZip(await response.buffer());
@@ -894,7 +894,7 @@ export class BrowserWindow {
         }
         console.log(join(utils.getPath("plugins"), "gh_" + apiRepo.id));
         zip.extractEntryTo(entry, join(utils.getPath("plugins"), "gh_" + apiRepo.id), false, true);
-        let commit = await utils.fetch(`https://api.github.com/repos/${repo}/commits`).then((res) => res.json()) as { sha: string }[];
+        let commit = (await utils.fetch(`https://api.github.com/repos/${repo}/commits`).then((res) => res.json())) as { sha: string }[];
         console.debug(`COMMIT SHA: ${commit[0].sha}`);
         let theme = JSON.parse(readFileSync(join(utils.getPath("plugins"), "gh_" + apiRepo.id, "package.json"), "utf8"));
         theme.id = apiRepo.id;
@@ -921,13 +921,13 @@ export class BrowserWindow {
         if (url.endsWith("/")) url = url.slice(0, -1);
         let response = await utils.fetch(`${url}/archive/refs/heads/main.zip`);
         let repo = url.split("/").slice(-2).join("/");
-        let apiRepo = await utils
+        let apiRepo = (await utils
           .fetch(`https://api.github.com/repos/${repo}`, {
             headers: {
               "User-Agent": utils.getWindow().webContents.getUserAgent(),
             },
           })
-          .then((res) => res.json()) as { id: number}
+          .then((res) => res.json())) as { id: number };
         console.error(apiRepo);
         console.debug(`REPO ID: ${apiRepo.id}`);
         // extract the files from the first folder in the zip response
@@ -941,7 +941,7 @@ export class BrowserWindow {
           let subFolder = entry.entryName.split("/").slice(1, -1).join("/");
           zip.extractEntryTo(entry, join(utils.getPath("themes"), "gh_" + apiRepo.id, "/", subFolder), false, true);
         });
-        let commit = await utils.fetch(`https://api.github.com/repos/${repo}/commits`).then((res) => res.json()) as { sha: string }[];
+        let commit = (await utils.fetch(`https://api.github.com/repos/${repo}/commits`).then((res) => res.json())) as { sha: string }[];
         console.debug(`COMMIT SHA: ${commit[0].sha}`);
         let theme = JSON.parse(readFileSync(join(utils.getPath("themes"), "gh_" + apiRepo.id, "theme.json"), "utf8"));
         theme.id = apiRepo.id;
@@ -1354,7 +1354,6 @@ export class BrowserWindow {
     }
     // Get previews for normalization
     ipcMain.on("getPreviewURL", (_event, url) => {
-
       fetch(url)
         .then((res) => res.buffer())
         .then(async (buffer) => {

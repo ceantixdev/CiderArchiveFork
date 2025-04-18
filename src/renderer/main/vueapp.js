@@ -1238,7 +1238,7 @@ const app = new Vue({
         try {
           a = a.item.attributes;
         } catch (_) {}
-        let type = self.mk.nowPlayingItem != null ? self.mk.nowPlayingItem["type"] ?? "" : "";
+        let type = self.mk.nowPlayingItem != null ? (self.mk.nowPlayingItem["type"] ?? "") : "";
 
         if (type.includes("musicVideo") || type.includes("uploadedVideo") || type.includes("music-movie") || (self.mk.nowPlayingItem?.type == "radioStation") & (self.mk.nowPlayingItem?.attributes?.mediaKind == "video")) {
           document.getElementById("apple-music-video-container").style.display = "block";
@@ -2207,9 +2207,9 @@ const app = new Vue({
     },
     routeView(item) {
       this.setPagePos();
-      let kind = item.attributes?.playParams ? item.attributes?.playParams?.kind ?? item.type ?? "" : item.type ?? "";
-      let id = item.attributes?.playParams ? item.attributes?.playParams?.id ?? item.id ?? "" : item.id ?? "";
-      let isLibrary = item.attributes?.playParams ? item.attributes?.playParams?.isLibrary ?? false : false;
+      let kind = item.attributes?.playParams ? (item.attributes?.playParams?.kind ?? item.type ?? "") : (item.type ?? "");
+      let id = item.attributes?.playParams ? (item.attributes?.playParams?.id ?? item.id ?? "") : (item.id ?? "");
+      let isLibrary = item.attributes?.playParams ? (item.attributes?.playParams?.isLibrary ?? false) : false;
       if (kind.includes("playlist") || kind.includes("album")) {
         app.showingPlaylist = [];
       }
@@ -2530,9 +2530,9 @@ const app = new Vue({
       return this.cfg.home.followedArtists.includes(id);
     },
     playMediaItem(item) {
-      let kind = item.attributes.playParams ? item.attributes.playParams.kind ?? item.type ?? "" : item.type ?? "";
-      let id = item.attributes.playParams ? item.attributes.playParams.id ?? item.id ?? "" : item.id ?? "";
-      let isLibrary = item.attributes.playParams ? item.attributes.playParams.isLibrary ?? false : false;
+      let kind = item.attributes.playParams ? (item.attributes.playParams.kind ?? item.type ?? "") : (item.type ?? "");
+      let id = item.attributes.playParams ? (item.attributes.playParams.id ?? item.id ?? "") : (item.id ?? "");
+      let isLibrary = item.attributes.playParams ? (item.attributes.playParams.isLibrary ?? false) : false;
       let truekind = !kind.endsWith("s") ? kind + "s" : kind;
       // console.log(kind, id, isLibrary)
       app.mk.stop().then(() => {
@@ -3330,7 +3330,7 @@ const app = new Vue({
       this.page = "search";
     },
     loadLyrics() {
-      const musicType = MusicKit.getInstance().nowPlayingItem != null ? MusicKit.getInstance().nowPlayingItem["type"] ?? "" : "";
+      const musicType = MusicKit.getInstance().nowPlayingItem != null ? (MusicKit.getInstance().nowPlayingItem["type"] ?? "") : "";
       // console.log("mt", musicType)
       if (musicType === "musicVideo") {
         this.loadYTLyrics();
@@ -3344,7 +3344,7 @@ const app = new Vue({
       }
     },
     async loadAMLyrics() {
-      const songID = this.mk.nowPlayingItem != null ? this.mk.nowPlayingItem["_songId"] ?? this.mk.nowPlayingItem["songId"] ?? -1 : -1;
+      const songID = this.mk.nowPlayingItem != null ? (this.mk.nowPlayingItem["_songId"] ?? this.mk.nowPlayingItem["songId"] ?? -1) : -1;
       // this.getMXM( trackName, artistName, 'en', duration);
       if (songID != -1) {
         try {
@@ -3392,9 +3392,9 @@ const app = new Vue({
       notyf.success(app.getLz("action.removeFromLibrary.success"));
     },
     async loadYTLyrics() {
-      const track = this.mk.nowPlayingItem != null ? this.mk.nowPlayingItem.title ?? "" : "";
-      const artist = this.mk.nowPlayingItem != null ? this.mk.nowPlayingItem.artistName ?? "" : "";
-      const time = this.mk.nowPlayingItem != null ? Math.round((this.mk.nowPlayingItem.attributes["durationInMillis"] ?? -1000) / 1000) ?? -1 : -1;
+      const track = this.mk.nowPlayingItem != null ? (this.mk.nowPlayingItem.title ?? "") : "";
+      const artist = this.mk.nowPlayingItem != null ? (this.mk.nowPlayingItem.artistName ?? "") : "";
+      const time = this.mk.nowPlayingItem != null ? (Math.round((this.mk.nowPlayingItem.attributes["durationInMillis"] ?? -1000) / 1000) ?? -1) : -1;
       ipcRenderer.invoke("getYTLyrics", track, artist).then((result) => {
         if (result.length > 0) {
           let ytid = result[0]["id"]["videoId"];
@@ -3451,10 +3451,10 @@ const app = new Vue({
     },
     loadMXM() {
       let attempt = 0;
-      const track = encodeURIComponent(this.mk.nowPlayingItem != null ? this.mk.nowPlayingItem.title ?? "" : "");
-      const artist = encodeURIComponent(this.mk.nowPlayingItem != null ? this.mk.nowPlayingItem.artistName ?? "" : "");
-      const time = encodeURIComponent(this.mk.nowPlayingItem != null ? Math.round((this.mk.nowPlayingItem.attributes["durationInMillis"] ?? -1000) / 1000) ?? -1 : -1);
-      const id = encodeURIComponent(this.mk.nowPlayingItem != null ? app.mk.nowPlayingItem._songId ?? app.mk.nowPlayingItem["songId"] ?? "" : "");
+      const track = encodeURIComponent(this.mk.nowPlayingItem != null ? (this.mk.nowPlayingItem.title ?? "") : "");
+      const artist = encodeURIComponent(this.mk.nowPlayingItem != null ? (this.mk.nowPlayingItem.artistName ?? "") : "");
+      const time = encodeURIComponent(this.mk.nowPlayingItem != null ? (Math.round((this.mk.nowPlayingItem.attributes["durationInMillis"] ?? -1000) / 1000) ?? -1) : -1);
+      const id = encodeURIComponent(this.mk.nowPlayingItem != null ? (app.mk.nowPlayingItem._songId ?? app.mk.nowPlayingItem["songId"] ?? "") : "");
       let lrcfile = "";
       let richsync = [];
       const lang = app.cfg.lyrics.mxm_language; //  translation language
@@ -3558,7 +3558,7 @@ const app = new Vue({
                     let preLrc = [];
                     for (var i = u.length - 1; i >= 0; i--) {
                       let xline = /(\[[0-9.:\[\]]*\])+(.*)/.exec(u[i]);
-                      let end = preLrc.length > 0 ? preLrc[preLrc.length - 1].startTime ?? 99999 : 99999;
+                      let end = preLrc.length > 0 ? (preLrc[preLrc.length - 1].startTime ?? 99999) : 99999;
                       preLrc.push({
                         startTime: app.toMS(xline[1].substring(1, xline[1].length - 2)) ?? 0,
                         endTime: end,
@@ -3675,9 +3675,9 @@ const app = new Vue({
       }
     },
     loadNeteaseLyrics() {
-      const track = encodeURIComponent(this.mk.nowPlayingItem != null ? this.mk.nowPlayingItem.title ?? "" : "");
-      const artist = encodeURIComponent(this.mk.nowPlayingItem != null ? this.mk.nowPlayingItem.artistName ?? "" : "");
-      const time = encodeURIComponent(this.mk.nowPlayingItem != null ? Math.round((this.mk.nowPlayingItem.attributes["durationInMillis"] ?? -1000) / 1000) ?? -1 : -1);
+      const track = encodeURIComponent(this.mk.nowPlayingItem != null ? (this.mk.nowPlayingItem.title ?? "") : "");
+      const artist = encodeURIComponent(this.mk.nowPlayingItem != null ? (this.mk.nowPlayingItem.artistName ?? "") : "");
+      const time = encodeURIComponent(this.mk.nowPlayingItem != null ? (Math.round((this.mk.nowPlayingItem.attributes["durationInMillis"] ?? -1000) / 1000) ?? -1) : -1);
       var url = `http://music.163.com/api/search/get/?csrf_token=hlpretag=&hlposttag=&s=${track + " " + artist}&type=1&offset=0&total=true&limit=6`;
       var req = new XMLHttpRequest();
       req.overrideMimeType("application/json");
@@ -3700,7 +3700,7 @@ const app = new Vue({
               for (var i = u.length - 1; i >= 0; i--) {
                 let xline = /(\[[0-9.:\[\]]*\])+(.*)/.exec(u[i]);
                 if (xline != null) {
-                  let end = preLrc.length > 0 ? preLrc[preLrc.length - 1].startTime ?? 99999 : 99999;
+                  let end = preLrc.length > 0 ? (preLrc[preLrc.length - 1].startTime ?? 99999) : 99999;
                   preLrc.push({
                     startTime: app.toMS(xline[1].substring(1, xline[1].length - 2)) ?? 0,
                     endTime: end,
@@ -3732,9 +3732,9 @@ const app = new Vue({
     },
     loadQQLyrics() {
       if (!app.cfg.lyrics.enable_qq) return;
-      const track = encodeURIComponent(this.mk.nowPlayingItem != null ? this.mk.nowPlayingItem.title ?? "" : "");
-      const artist = encodeURIComponent(this.mk.nowPlayingItem != null ? this.mk.nowPlayingItem.artistName ?? "" : "");
-      const time = encodeURIComponent(this.mk.nowPlayingItem != null ? Math.round((this.mk.nowPlayingItem.attributes["durationInMillis"] ?? -1000) / 1000) ?? -1 : -1);
+      const track = encodeURIComponent(this.mk.nowPlayingItem != null ? (this.mk.nowPlayingItem.title ?? "") : "");
+      const artist = encodeURIComponent(this.mk.nowPlayingItem != null ? (this.mk.nowPlayingItem.artistName ?? "") : "");
+      const time = encodeURIComponent(this.mk.nowPlayingItem != null ? (Math.round((this.mk.nowPlayingItem.attributes["durationInMillis"] ?? -1000) / 1000) ?? -1) : -1);
       var url = `https://c.y.qq.com/soso/fcgi-bin/client_search_cp?w=${track + " " + artist}&t=0&n=1&page=1&cr=1&new_json=1&format=json&platform=yqq.json`;
 
       var req = new XMLHttpRequest();
@@ -3769,7 +3769,7 @@ const app = new Vue({
               for (var i = u.length - 1; i >= 0; i--) {
                 let xline = /(\[[0-9.:\[\]]*\])+(.*)/.exec(u[i]);
                 if (xline != null) {
-                  let end = preLrc.length > 0 ? preLrc[preLrc.length - 1].startTime ?? 99999 : 99999;
+                  let end = preLrc.length > 0 ? (preLrc[preLrc.length - 1].startTime ?? 99999) : 99999;
                   preLrc.push({
                     startTime: app.toMS(xline[1].substring(1, xline[1].length - 2)) ?? 0,
                     endTime: end,
@@ -4228,12 +4228,12 @@ const app = new Vue({
         if (this.search.hints.length - 1 < this.search.cursor + 1) return;
         this.search.cursor++;
         let item = this.search.hints[this.search.cursor];
-        this.search.term = item.content ? item.content?.attributes?.name ?? "" : item.displayTerm;
+        this.search.term = item.content ? (item.content?.attributes?.name ?? "") : item.displayTerm;
       } else if (e.keyCode == "38") {
         if (this.search.cursor == 0) return;
         this.search.cursor--;
         let item = this.search.hints[this.search.cursor];
-        this.search.term = item.content ? item.content?.attributes?.name ?? "" : item.displayTerm;
+        this.search.term = item.content ? (item.content?.attributes?.name ?? "") : item.displayTerm;
       }
     },
     async searchQuery(term = this.search.term) {
@@ -4499,7 +4499,7 @@ const app = new Vue({
     },
     async getRating(item) {
       let type = item.type.slice(-1) === "s" ? item.type : item.type + "s";
-      let id = item.attributes?.playParams?.catalogId ? item.attributes.playParams.catalogId : item.attributes?.playParams?.id ?? item.id;
+      let id = item.attributes?.playParams?.catalogId ? item.attributes.playParams.catalogId : (item.attributes?.playParams?.id ?? item.id);
       if (item.id != null && item.id.toString().startsWith("i.")) {
         if (!type.startsWith("library-")) {
           type = "library-" + type;
@@ -4516,7 +4516,7 @@ const app = new Vue({
     },
     love(item) {
       let type = item.type.slice(-1) === "s" ? item.type : item.type + "s";
-      let id = item.attributes?.playParams?.catalogId ? item.attributes.playParams.catalogId : item.attributes?.playParams?.id ?? item.id;
+      let id = item.attributes?.playParams?.catalogId ? item.attributes.playParams.catalogId : (item.attributes?.playParams?.id ?? item.id);
       if (item.id != null && item.id.toString().startsWith("i.")) {
         if (!type.startsWith("library-")) {
           type = "library-" + type;
@@ -4541,7 +4541,7 @@ const app = new Vue({
     },
     dislike(item) {
       let type = item.type.slice(-1) === "s" ? item.type : item.type + "s";
-      let id = item.attributes?.playParams?.catalogId ? item.attributes.playParams.catalogId : item.attributes?.playParams?.id ?? item.id;
+      let id = item.attributes?.playParams?.catalogId ? item.attributes.playParams.catalogId : (item.attributes?.playParams?.id ?? item.id);
       if (item.id != null && item.id.toString().startsWith("i.")) {
         if (!type.startsWith("library-")) {
           type = "library-" + type;

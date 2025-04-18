@@ -281,7 +281,8 @@ export class AppEvents {
     this.tray.setToolTip(app.getName());
     this.setTray(false);
 
-    this.tray.on("double-click", () => {  // supports windows and mac only
+    this.tray.on("double-click", () => {
+      // supports windows and mac only
       if (utils.getWindow()) {
         if (utils.getWindow().isVisible()) {
           utils.getWindow().focus();
@@ -292,7 +293,8 @@ export class AppEvents {
     });
 
     this.tray.on("click", () => {
-      if (utils.getWindow() && process.platform === "linux") {  // use single click to open when double doesn't work
+      if (utils.getWindow() && process.platform === "linux") {
+        // use single click to open when double doesn't work
         if (utils.getWindow().isVisible()) {
           utils.getWindow().focus();
         } else {

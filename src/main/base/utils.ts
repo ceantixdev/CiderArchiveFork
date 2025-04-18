@@ -2,13 +2,13 @@ import { BrowserWindow, app, ipcMain } from "electron";
 import ElectronStore from "electron-store";
 import fetch from "node-fetch";
 import { readFileSync } from "node:fs";
-import { join, resolve,dirname } from "node:path";
+import { join, resolve, dirname } from "node:path";
 import { BrowserWindow as bw } from "./browserwindow.js";
 import { Store } from "./store.js";
 import { fileURLToPath } from "node:url";
 
 export class utils {
-  static hash = "fda9a6528649ea90dee35390wog"
+  static hash = "fda9a6528649ea90dee35390wog";
   static i18n: any = {};
 
   /**
@@ -104,8 +104,8 @@ export class utils {
   }
 
   static async initializeTranslations() {
-    const otaClient = (await import('@crowdin/ota-client')).default.default;
-    const crowdin = new otaClient(this.hash)
+    const otaClient = (await import("@crowdin/ota-client")).default.default;
+    const crowdin = new otaClient(this.hash);
 
     this.i18n = await crowdin.getTranslations();
   }
