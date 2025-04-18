@@ -52,7 +52,7 @@
     "jimp": "^0.22.12",
     "lastfmapi": "^0.1.1",
     "mdns-js": "ciderapp/node-mdns-js",
-    "mpris-service": "dbujs/mpris-service",
+    "mpris-service": "dbusjs/mpris-service",
     "music-metadata": "7.14.0",
     "node-fetch": "^3.3.2",
     "node-ssdp": "^4.0.1",
